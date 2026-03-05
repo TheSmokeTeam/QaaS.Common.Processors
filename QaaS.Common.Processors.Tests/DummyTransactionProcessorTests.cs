@@ -42,7 +42,8 @@ public class DummyTransactionProcessorTests
         var result = processor.Process(ImmutableList<DataSource>.Empty, requestData);
         var resultJson = JsonNode.Parse(result.Body?.ToString() ?? "{}")!.AsObject();
         var httpMetaData = result.MetaData?.Http;
-        var contentType = httpMetaData?.ResponseHeaders.TryGetValue("Content-Type", out var value) == true
+        var contentType = httpMetaData?.ResponseHeaders is { } headers &&
+                          headers.TryGetValue("Content-Type", out var value)
             ? value
             : null;
 
