@@ -10,8 +10,8 @@ Reusable .NET transaction processors for QaaS mocker workflows.
 - [Overview](#overview)
 - [Packages](#packages)
 - [Functionalities](#functionalities)
-- [Install and Upgrade](#install-and-upgrade)
-- [Architecture](#architecture)
+- [Quick Start](#quick-start)
+- [Build and Test](#build-and-test)
 - [Documentation](#documentation)
 
 ## Overview
@@ -39,39 +39,25 @@ The solution includes:
 - NUnit tests for all processors and core edge cases.
 - Validation of happy-path behavior and expected exception flows.
 
-## Install and Upgrade
-Install:
+## Quick Start
+Install package:
 
 ```bash
 dotnet add package QaaS.Common.Processors
 ```
 
-Upgrade:
+Update package:
 
 ```bash
 dotnet add package QaaS.Common.Processors --version 1.0.0
 dotnet restore
 ```
 
-## Architecture
-- Processor model: all runtime processors inherit from `BaseTransactionProcessor<TConfiguration>` from `QaaS.Framework.SDK`.
-- Configuration boundary:
-  - `NoConfiguration` is used by processors that do not require settings.
-  - `DummyStubConfig` supplies required key/value fields for `DummyTransactionProcessor`.
-  - `StatusCodeConfiguration` (from framework SDK) configures `StatusCodeTransactionProcessor`.
-- Response patterns:
-  - HTTP-oriented processors return `Data<object>` with `MetaData.Http` status and optional headers/body.
-  - `GrpcEchoProcessor` resolves request/response pairs via reflection using `*Request` -> `*Response` naming.
-  - If a response exposes `ToByteArray()`, `GrpcEchoProcessor` emits serialized `byte[]`; otherwise it returns the object directly.
-- Test coverage of behavior:
-  - One dedicated test class per processor validates normal flow and critical edge cases.
-  - Test project depends on the runtime package project directly through `ProjectReference`.
-
-Minimal usage example:
-
-```csharp
-var processor = new ExampleProcessor();
-var response = processor.Process(ImmutableList<DataSource>.Empty, new Data<object>());
+## Build and Test
+```bash
+dotnet restore QaaS.Common.Processors.sln
+dotnet build QaaS.Common.Processors.sln -c Release --no-restore
+dotnet test QaaS.Common.Processors.sln -c Release --no-build
 ```
 
 ## Documentation
