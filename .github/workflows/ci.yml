@@ -39,6 +39,60 @@ jobs:
       - name: Test solution
         run: dotnet test ${{ env.SOLUTION_PATH }} --configuration ${{ env.CONFIGURATION }} --no-restore --maxcpucount
 
+      - name: Validate NuGet package metadata
+        shell: powershell
+        run: |
+          $projectPath = "${{ env.PROJECT_TO_PACK }}"
+          if (!(Test-Path $projectPath)) {
+            throw "Project to pack not found: $projectPath"
+          }
+
+          [xml]$projectXml = Get-Content $projectPath
+
+          $description = @($projectXml.Project.PropertyGroup | ForEach-Object { $_.Description } | Where-Object { $_ -and $_.Trim() -ne "" }) | Select-Object -First 1
+          if ($null -eq $description) {
+            Write-Host "No package description configured; README/snupkg validation skipped."
+            exit 0
+          }
+
+          $packageReadmeFile = @($projectXml.Project.PropertyGroup | ForEach-Object { $_.PackageReadmeFile } | Where-Object { $_ -and $_.Trim() -ne "" }) | Select-Object -First 1
+          $includeSymbols = @($projectXml.Project.PropertyGroup | ForEach-Object { $_.IncludeSymbols } | Where-Object { $_ -and $_.Trim() -ne "" }) | Select-Object -First 1
+          $symbolPackageFormat = @($projectXml.Project.PropertyGroup | ForEach-Object { $_.SymbolPackageFormat } | Where-Object { $_ -and $_.Trim() -ne "" }) | Select-Object -First 1
+
+          if ($packageReadmeFile -ne "README.md") {
+            throw "PackageReadmeFile must be README.md for $projectPath"
+          }
+
+          if ($includeSymbols.ToString().ToLowerInvariant() -ne "true") {
+            throw "IncludeSymbols must be true for $projectPath"
+          }
+
+          if ($symbolPackageFormat.ToString().ToLowerInvariant() -ne "snupkg") {
+            throw "SymbolPackageFormat must be snupkg for $projectPath"
+          }
+
+          $hasReadmeItem = $false
+          foreach ($itemGroup in @($projectXml.Project.ItemGroup)) {
+            foreach ($noneItem in @($itemGroup.None)) {
+              if ($null -eq $noneItem) {
+                continue
+              }
+
+              if ($noneItem.Include -eq "..\README.md" -and
+                  $noneItem.Pack.ToString().ToLowerInvariant() -eq "true" -and
+                  $noneItem.PackagePath -eq "/" -and
+                  $noneItem.Link -eq "README.md") {
+                $hasReadmeItem = $true
+              }
+            }
+          }
+
+          if (-not $hasReadmeItem) {
+            throw "Package must include root README.md as packed readme file for $projectPath"
+          }
+
+          Write-Host "NuGet package metadata validation passed for $projectPath."
+
       - name: Get Version
         if: startsWith(github.ref, 'refs/tags/')
         id: version
