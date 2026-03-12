@@ -18,7 +18,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="QaaS.Framework.Executions" Version="1.1.0" />
+        <PackageReference Include="QaaS.Framework.Executions" Version="1.2.0-alpha.13" />
     </ItemGroup>
 
     <ItemGroup>
