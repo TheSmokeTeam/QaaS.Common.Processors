@@ -1,6 +1,6 @@
 # QaaS.Common.Processors
 
-Deprecated repository placeholder for the retired `QaaS.Common.Processors` built-in processor package.
+Reusable .NET transaction processors for QaaS mocker workflows.
 
 [![CI](https://github.com/TheSmokeTeam/QaaS.Common.Processors/actions/workflows/ci.yml/badge.svg)](https://github.com/TheSmokeTeam/QaaS.Common.Processors/actions/workflows/ci.yml)
 [![Line Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/eldarush/b162a10f72beb3d3562978765ecc4d6c/raw/line-coverage-badge.json)](https://github.com/TheSmokeTeam/QaaS.Common.Processors/actions/workflows/ci.yml)
@@ -8,57 +8,54 @@ Deprecated repository placeholder for the retired `QaaS.Common.Processors` built
 [![Docs](https://img.shields.io/badge/docs-qaas--docs-blue)](https://thesmoketeam.github.io/qaas-docs/)
 [![.NET](https://img.shields.io/badge/.NET-10.0-512BD4)](https://dotnet.microsoft.com/)
 
-## Status
+## Contents
+- [Overview](#overview)
+- [Packages](#packages)
+- [Functionalities](#functionalities)
+- [Quick Start](#quick-start)
+- [Build and Test](#build-and-test)
+- [Documentation](#documentation)
 
-`QaaS.Common.Processors` no longer ships reusable transaction processors and no longer publishes a NuGet package.
+## Overview
+This repository contains one solution: [`QaaS.Common.Processors.sln`](./QaaS.Common.Processors.sln).
 
-The remaining assembly only exposes retirement metadata and migration guidance through `ProcessorRetirementCatalog`. It exists to lock the repo into its retired state, document the canonical framework status hook, and keep the future backlog explicit under test.
+The solution includes:
+- Runtime package project: [`QaaS.Common.Processors`](./QaaS.Common.Processors/)
+- Test project: [`QaaS.Common.Processors.Tests`](./QaaS.Common.Processors.Tests/)
 
-The canonical built-in status hook is now:
+`QaaS.Common.Processors` provides reusable `BaseTransactionProcessor<TConfiguration>` implementations that can be plugged into QaaS execution pipelines.
 
-`QaaS.Framework.SDK.Hooks.BaseHooks.StatusCodeTransactionProcessor`
+## Packages
+| Package | Latest Version | Total Downloads |
+|---|---|---|
+| [QaaS.Common.Processors](https://www.nuget.org/packages/QaaS.Common.Processors/) | [![NuGet](https://img.shields.io/nuget/v/QaaS.Common.Processors?logo=nuget)](https://www.nuget.org/packages/QaaS.Common.Processors/) | [![Downloads](https://img.shields.io/nuget/dt/QaaS.Common.Processors?logo=nuget)](https://www.nuget.org/packages/QaaS.Common.Processors/) |
 
-Use the fully qualified type name in mocker YAML when you need the built-in status hook, because `QaaS.Mocker` also contains an internal runtime-only `StatusCodeTransactionProcessor` for default 404/500 fallback stubs.
+## Functionalities
+### [QaaS.Common.Processors](./QaaS.Common.Processors/)
+- `StaticResponseProcessor`: returns a configurable UTF-8 body, status code, content type, and additional response headers.
+- `RequestEchoProcessor`: returns a JSON echo of the incoming body, request headers, path parameters, and request URI.
+- `PassThroughProcessor`: returns the incoming payload unchanged while applying response status and headers, with optional metadata preservation.
+- `StatusCodeTransactionProcessor`: returns an empty body with status code from `StatusCodeConfiguration`.
 
-`QaaS.Mocker` internal fallback behavior was intentionally left unchanged by this retirement.
+### [QaaS.Common.Processors.Tests](./QaaS.Common.Processors.Tests/)
+- NUnit tests for all processors and core edge cases.
+- Validation of response metadata, payload handling, and passthrough behavior.
 
-## Migration
+## Quick Start
+Install package:
 
-Replace package usage with one of these patterns:
-
-1. For a simple built-in status response, use the framework hook directly in YAML:
-
-```yaml
-Stubs:
-  - Name: HealthStub
-    Processor: QaaS.Framework.SDK.Hooks.BaseHooks.StatusCodeTransactionProcessor
-    ProcessorConfiguration:
-      StatusCode: 200
+```bash
+dotnet add package QaaS.Common.Processors
 ```
 
-2. For any other behavior, author a local processor in the mocker project by inheriting from `BaseTransactionProcessor<TConfig>` in `QaaS.Framework.SDK`.
+Update package:
 
-There is currently no successor shared processor package. Reusable processors must be authored locally until a replacement package is created.
+```bash
+dotnet add package QaaS.Common.Processors --version 1.0.0
+dotnet restore
+```
 
-## Backlog
-
-The following processor candidates were identified from `QaaS.Runner` and `QaaS.Mocker` usage patterns. They are roadmap items only and are not implemented in this repository:
-
-1. `StaticResponseProcessor`
-2. `TransactionFromDataSources`
-3. `RequestEchoProcessor`
-4. `PassThroughProcessor`
-5. `JsonTemplateProcessor`
-6. `ConditionalResponseProcessor`
-7. `SequenceProcessor`
-8. `LatencyInjectionProcessor`
-9. `ProblemDetailsProcessor`
-10. `TextTransformProcessor`
-
-## Build
-
-The remaining solution is kept only for build, coverage, and deprecation validation. CI enforces 90%+ line and branch coverage over the retirement metadata and migration logic:
-
+## Build and Test
 ```bash
 dotnet restore QaaS.Common.Processors.sln
 dotnet build QaaS.Common.Processors.sln -c Release --no-restore
@@ -66,6 +63,6 @@ dotnet test QaaS.Common.Processors.sln -c Release --no-build
 ```
 
 ## Documentation
-
 - Official docs: [thesmoketeam.github.io/qaas-docs](https://thesmoketeam.github.io/qaas-docs/)
 - CI workflow: [`.github/workflows/ci.yml`](./.github/workflows/ci.yml)
+- NuGet package: [QaaS.Common.Processors on NuGet](https://www.nuget.org/packages/QaaS.Common.Processors/)
