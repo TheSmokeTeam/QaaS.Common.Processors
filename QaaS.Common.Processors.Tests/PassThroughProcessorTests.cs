@@ -127,4 +127,35 @@ public class PassThroughProcessorTests
             Assert.That(result.MetaData?.Http?.ResponseHeaders, Is.Null);
         });
     }
+
+    [Test]
+    public void Process_PreservesMetadataModeCanHandleMissingRequestMetadata()
+    {
+        var processor = new PassThroughProcessor
+        {
+            Context = Globals.Context,
+            Configuration = new PassThroughConfiguration
+            {
+                StatusCode = 206,
+                PreserveMetaData = true
+            }
+        };
+
+        var result = processor.Process(
+            ImmutableList<DataSource>.Empty,
+            new Data<object>
+            {
+                Body = "payload",
+                MetaData = null
+            });
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.Body, Is.EqualTo("payload"));
+            Assert.That(result.MetaData, Is.Not.Null);
+            Assert.That(result.MetaData?.Http?.StatusCode, Is.EqualTo(206));
+            Assert.That(result.MetaData?.IoMatchIndex, Is.Null);
+            Assert.That(result.MetaData?.Http?.ResponseHeaders, Is.Null);
+        });
+    }
 }
