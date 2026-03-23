@@ -7,6 +7,9 @@ using QaaS.Framework.SDK.Session.MetaDataObjects;
 
 namespace QaaS.Common.Processors;
 
+/// <summary>
+/// Returns the first configured response whose rule matches the incoming request metadata, or the configured default response when no rule matches.
+/// </summary>
 public class ConditionalResponseProcessor : BaseTransactionProcessor<ConditionalResponseConfiguration>
 {
     public override Data<object> Process(IImmutableList<DataSource> dataSourceList, Data<object> requestData)

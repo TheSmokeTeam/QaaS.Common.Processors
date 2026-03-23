@@ -8,6 +8,9 @@ using QaaS.Framework.SDK.Session.DataObjects;
 
 namespace QaaS.Common.Processors;
 
+/// <summary>
+/// Wraps the incoming request payload and optional request metadata in a JSON envelope response.
+/// </summary>
 public class JsonEnvelopeProcessor : BaseTransactionProcessor<JsonEnvelopeConfiguration>
 {
     public override Data<object> Process(IImmutableList<DataSource> dataSourceList, Data<object> requestData)

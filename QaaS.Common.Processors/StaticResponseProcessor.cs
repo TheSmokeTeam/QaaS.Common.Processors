@@ -8,6 +8,9 @@ using QaaS.Framework.SDK.Session.MetaDataObjects;
 
 namespace QaaS.Common.Processors;
 
+/// <summary>
+/// Returns a fixed UTF-8 response body with the configured status code, content type, and headers.
+/// </summary>
 public class StaticResponseProcessor : BaseTransactionProcessor<StaticResponseConfiguration>
 {
     public override Data<object> Process(IImmutableList<DataSource> dataSourceList, Data<object> requestData)

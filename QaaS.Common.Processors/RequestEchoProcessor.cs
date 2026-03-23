@@ -10,6 +10,9 @@ using QaaS.Framework.SDK.Session.MetaDataObjects;
 
 namespace QaaS.Common.Processors;
 
+/// <summary>
+/// Returns a JSON response that echoes the incoming request body and optional request metadata.
+/// </summary>
 public class RequestEchoProcessor : BaseTransactionProcessor<RequestEchoConfiguration>
 {
     public override Data<object> Process(IImmutableList<DataSource> dataSourceList, Data<object> requestData)

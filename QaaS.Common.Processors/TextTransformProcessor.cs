@@ -8,6 +8,9 @@ using QaaS.Framework.SDK.Session.DataObjects;
 
 namespace QaaS.Common.Processors;
 
+/// <summary>
+/// Reads the incoming payload as text, applies the configured text transformation, and returns the transformed response.
+/// </summary>
 public class TextTransformProcessor : BaseTransactionProcessor<TextTransformConfiguration>
 {
     public override Data<object> Process(IImmutableList<DataSource> dataSourceList, Data<object> requestData)

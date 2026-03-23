@@ -7,6 +7,9 @@ using QaaS.Framework.SDK.Session.MetaDataObjects;
 
 namespace QaaS.Common.Processors;
 
+/// <summary>
+/// Returns the incoming request payload unchanged while applying the configured response metadata.
+/// </summary>
 public class PassThroughProcessor : BaseTransactionProcessor<PassThroughConfiguration>
 {
     public override Data<object> Process(IImmutableList<DataSource> dataSourceList, Data<object> requestData)
