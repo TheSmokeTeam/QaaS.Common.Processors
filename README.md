@@ -32,14 +32,19 @@ The solution includes:
 
 ## Functionalities
 ### [QaaS.Common.Processors](./QaaS.Common.Processors/)
-- `ExampleProcessor`: returns a static UTF-8 response body with HTTP status `200`.
-- `DummyTransactionProcessor`: converts request bytes to Base64, injects configured key/value pairs, and returns JSON metadata including request path parameters.
-- `GrpcEchoProcessor`: resolves paired `*Request` / `*Response` types, echoes request `Message`, sets response `Code = 200`, and returns `byte[]` when `ToByteArray()` exists.
+- `StaticResponseProcessor`: returns a configurable UTF-8 body, status code, content type, and additional response headers.
+- `RequestEchoProcessor`: returns a JSON echo of the incoming body, request headers, path parameters, and request URI.
+- `PassThroughProcessor`: returns the incoming payload unchanged while applying response status and headers, with optional metadata preservation.
+- `ProblemDetailsProcessor`: returns RFC 7807 style JSON problem details payloads with configurable status, type, title, detail, instance, extensions, and headers.
+- `TextTransformProcessor`: reads incoming text or bytes, optionally trims and replaces content, then applies configurable prefix and suffix output shaping.
+- `JsonEnvelopeProcessor`: wraps the incoming body in a JSON envelope with optional request URI, request headers, path parameters, and body type metadata.
+- `ConditionalResponseProcessor`: evaluates ordered header or path-parameter matching rules and returns the first configured response, with a configurable fallback.
+- `DataSourceResponseProcessor`: resolves a configured data source, selects generated data by first, last, or index, and can fall back when selection fails.
 - `StatusCodeTransactionProcessor`: returns an empty body with status code from `StatusCodeConfiguration`.
 
 ### [QaaS.Common.Processors.Tests](./QaaS.Common.Processors.Tests/)
 - NUnit tests for all processors and core edge cases.
-- Validation of happy-path behavior and expected exception flows.
+- Validation of response metadata, payload handling, and passthrough behavior.
 
 ## Quick Start
 Install package:
