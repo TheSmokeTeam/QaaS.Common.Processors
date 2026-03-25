@@ -4,7 +4,7 @@ This file is generated automatically from CI from git history.
 
 ## Unreleased
 
-- No changes recorded.
+- chore(ci): record clean build verification
 
 ## 1.1.0 - 2026-03-23
 
