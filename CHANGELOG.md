@@ -4,6 +4,10 @@ This file is generated automatically from CI from git history.
 
 ## Unreleased
 
+- No changes recorded.
+
+## 1.1.0 - 2026-03-23
+
 - chore(deps): bump framework packages
 - docs(processors): add hook XML summaries
 - docs(changelog): add automated changelog
