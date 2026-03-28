@@ -10,6 +10,7 @@ namespace QaaS.Common.Processors;
 /// <summary>
 /// Returns the incoming request payload unchanged while applying the configured response metadata.
 /// </summary>
+/// <qaas-docs group="Request-derived responses" subgroup="Pass-through payload" />
 public class PassThroughProcessor : BaseTransactionProcessor<PassThroughConfiguration>
 {
     public override Data<object> Process(IImmutableList<DataSource> dataSourceList, Data<object> requestData)

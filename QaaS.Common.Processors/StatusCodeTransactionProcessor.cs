@@ -10,6 +10,7 @@ namespace QaaS.Common.Processors;
 /// <summary>
 /// Skim Transaction Processor which returns empty-bodied data objects with Status Code configuration.
 /// </summary>
+/// <qaas-docs group="Static responses" subgroup="Status code only" />
 public class StatusCodeTransactionProcessor : BaseTransactionProcessor<StatusCodeConfiguration>
 {
     /// <inheritdoc />

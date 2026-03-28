@@ -11,6 +11,7 @@ namespace QaaS.Common.Processors;
 /// <summary>
 /// Wraps the incoming request payload and optional request metadata in a JSON envelope response.
 /// </summary>
+/// <qaas-docs group="Transformations" subgroup="JSON envelope" />
 public class JsonEnvelopeProcessor : BaseTransactionProcessor<JsonEnvelopeConfiguration>
 {
     public override Data<object> Process(IImmutableList<DataSource> dataSourceList, Data<object> requestData)

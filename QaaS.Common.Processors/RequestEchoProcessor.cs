@@ -13,6 +13,7 @@ namespace QaaS.Common.Processors;
 /// <summary>
 /// Returns a JSON response that echoes the incoming request body and optional request metadata.
 /// </summary>
+/// <qaas-docs group="Request-derived responses" subgroup="Echo request" />
 public class RequestEchoProcessor : BaseTransactionProcessor<RequestEchoConfiguration>
 {
     public override Data<object> Process(IImmutableList<DataSource> dataSourceList, Data<object> requestData)

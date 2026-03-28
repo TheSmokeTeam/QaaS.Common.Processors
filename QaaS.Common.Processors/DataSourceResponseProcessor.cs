@@ -9,6 +9,7 @@ namespace QaaS.Common.Processors;
 /// <summary>
 /// Builds the response from generated data produced by one configured data source.
 /// </summary>
+/// <qaas-docs group="Data-driven responses" subgroup="Data source lookup" />
 public class DataSourceResponseProcessor : BaseTransactionProcessor<DataSourceResponseConfiguration>
 {
     public override Data<object> Process(IImmutableList<DataSource> dataSourceList, Data<object> requestData)
