@@ -10,6 +10,7 @@ namespace QaaS.Common.Processors;
 /// <summary>
 /// Returns an RFC 7807 style problem-details JSON response using the configured status and fields.
 /// </summary>
+/// <qaas-docs group="Error responses" subgroup="Problem details" />
 public class ProblemDetailsProcessor : BaseTransactionProcessor<ProblemDetailsConfiguration>
 {
     public override Data<object> Process(IImmutableList<DataSource> dataSourceList, Data<object> requestData)
