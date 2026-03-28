@@ -7,6 +7,10 @@ on:
   pull_request:
   workflow_dispatch:
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: write
 
@@ -413,7 +417,7 @@ jobs:
           $packages = Get-ChildItem "${{ env.PACKAGE_OUTPUT_DIRECTORY }}\QaaS.Common.Processors.*.nupkg"
           foreach ($package in $packages) {
             if ($package.Name -match "^QaaS\.Common\.Processors\.[0-9]") {
-              dotnet nuget push $package.FullName -k ${{ secrets.NUGET_AUTH_TOKEN }} -s https://api.nuget.org/v3/index.json
+            dotnet nuget push $package.FullName -k ${{ secrets.NUGET_AUTH_TOKEN }} -s https://api.nuget.org/v3/index.json --skip-duplicate
             }
           }
 
