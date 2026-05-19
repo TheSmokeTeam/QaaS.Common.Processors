@@ -61,8 +61,11 @@ dotnet restore
 ```
 
 ## Build and Test
+Repository restores read `QAAS_NUGET_SOURCE_URL` from `NuGet.config`.
+
 ```bash
-dotnet restore QaaS.Common.Processors.sln
+export QAAS_NUGET_SOURCE_URL=https://api.nuget.org/v3/index.json
+dotnet restore QaaS.Common.Processors.sln --source "$QAAS_NUGET_SOURCE_URL"
 dotnet build QaaS.Common.Processors.sln -c Release --no-restore
 dotnet test QaaS.Common.Processors.sln -c Release --no-build
 ```
