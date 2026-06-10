@@ -34,7 +34,7 @@ dotnet test --no-build          # NUnit, QaaS.Common.Processors.Tests
 - Configuration class properties feed the published schema — renames break user editor validation.
 - These run inside Mocker's request path: keep processors **stateless and fast**; behavior changes affect every stubbed endpoint users have configured.
 - Versioning is tag-driven (`VersionPrefix 0.0.0` + stable `X.X.X` Git tags in CI). Don't hand-edit versions.
-- CI (windows-latest) enforces **≥70% line coverage** via dotnet-coverage.
+- CI (windows-latest) measures and reports line coverage via dotnet-coverage; ≥70% is the target but is not enforced as a hard build gate.
 
 ## Process
 
